@@ -13,7 +13,7 @@ import pandas as pd
 
 ## set up working directory and folder 
 # folder destination
-folder_base = '/Users/madelinezhang/Downloads/adnet' 
+folder_base = '/gucnas3/madeline/adnet' 
 os.chdir(folder_base) # set working directory 
 
 # station name codes
@@ -24,9 +24,9 @@ FIXED_STATIONS = ['CHB', 'FKE', 'FKO', 'HED', 'JEJ', 'MTS', 'NGS',
 
 # set years [toggle for data extent]
 start_year = 2018
-end_year = 2022
+end_year = 2026
 
-seen = set()
+# seen = set()
 years, months, stations = [], [], []
 for year in range(start_year, end_year+1):
     
@@ -44,29 +44,25 @@ for year in range(start_year, end_year+1):
             file_name = os.path.basename(file)
             station = file_name[0:3]
             
-            if station in seen:
-                continue
-            seen.add(station)
+            # if station in seen:
+               # continue
+            # seen.add(station)
             
             years.append(int(year))
             months.append(int(MM))
             stations.append(station)
             
             
-            print(station) 
+            # print(station) 
 
 # create dataframe and export
 df = pd.DataFrame({
-    "year": years,
-    "month": months,
-    "station": stations
-    })
+        "year": years,
+        "month": months,
+        "station": stations}).drop_duplicates()
 
 df2 = (pd.crosstab([df["year"], df["month"]], df["station"])
       .reindex(columns=FIXED_STATIONS, fill_value=0)   # include stations that never appear
       .astype(bool))
 
-df.to_csv(f'adnet_data_availability_{start_year}_{end_year}.csv', index = False)
-
-
-            
+df2.to_csv(f'adnet_data_availability_{start_year}_{end_year}.csv', index = False)
