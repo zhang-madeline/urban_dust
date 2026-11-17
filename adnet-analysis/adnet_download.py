@@ -21,8 +21,8 @@ folder_base = '/gucnas3/madeline/adnet'
 os.chdir(folder_base) # set working directory 
 
 # set years [toggle for data extent]
-start_year = 2024
-end_year = 2026
+start_year = 2022
+end_year = 2023
 
 for year in range(start_year, end_year+1):
     
